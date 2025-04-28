@@ -2,7 +2,7 @@
 import React from 'react';
 import { PropertyData } from '@/types/dashboard';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Droplet, GasPump, Power, Gauge } from 'lucide-react';
+import { Droplet, Fuel, Power, Gauge } from 'lucide-react';
 
 interface SummaryPanelProps {
   properties: PropertyData[];
@@ -57,7 +57,7 @@ export const SummaryPanel: React.FC<SummaryPanelProps> = ({ properties }) => {
           <CardTitle className="text-sm font-medium text-meter-gas">
             Total Gas
           </CardTitle>
-          <GasPump className="h-4 w-4 text-meter-gas" />
+          <Fuel className="h-4 w-4 text-meter-gas" />
         </CardHeader>
         <CardContent>
           <div className="text-2xl font-bold">{totalGas.toLocaleString()} KG</div>
