@@ -1,3 +1,4 @@
+
 import type { Config } from "tailwindcss";
 
 export default {
@@ -18,6 +19,9 @@ export default {
 			}
 		},
 		extend: {
+			fontFamily: {
+				sans: ['Inter', 'system-ui', 'sans-serif'],
+			},
 			colors: {
 				border: 'hsl(var(--border))',
 				input: 'hsl(var(--input))',
@@ -61,6 +65,14 @@ export default {
 					'accent-foreground': 'hsl(var(--sidebar-accent-foreground))',
 					border: 'hsl(var(--sidebar-border))',
 					ring: 'hsl(var(--sidebar-ring))'
+				},
+				meter: {
+					power: '#F97316',    // Yellow/Orange for Power
+					water: '#0EA5E9',    // Blue for Water
+					gas: '#10B981',      // Green for Gas
+					diesel: '#EF4444',   // Red for Diesel
+					boiler: '#6B7280',   // Gray for Boiler
+					generator: '#8B5CF6', // Purple for Generator
 				}
 			},
 			borderRadius: {

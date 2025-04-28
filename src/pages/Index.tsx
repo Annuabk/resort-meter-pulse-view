@@ -1,11 +1,42 @@
-// Update this page (the content is just a fallback if you fail to update the page)
+
+import React, { useState } from 'react';
+import { HeaderFilters } from '@/components/HeaderFilters';
+import { PropertyCard } from '@/components/PropertyCard';
+import { SummaryPanel } from '@/components/SummaryPanel';
+import { useTheme } from '@/context/ThemeContext';
+import { DateRangeOption, PropertyOption } from '@/types/dashboard';
+import { mockProperties, propertyOptions } from '@/data/mockData';
 
 const Index = () => {
+  const { theme, toggleTheme } = useTheme();
+  const [dateRange, setDateRange] = useState<DateRangeOption>('This Month');
+  const [selectedProperty, setSelectedProperty] = useState<PropertyOption>('All');
+
+  // Filter properties based on selection
+  const filteredProperties = selectedProperty === 'All' 
+    ? mockProperties 
+    : mockProperties.filter(p => p.name === selectedProperty);
+
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100">
-      <div className="text-center">
-        <h1 className="text-4xl font-bold mb-4">Welcome to Your Blank App</h1>
-        <p className="text-xl text-gray-600">Start building your amazing project here!</p>
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-gray-100 transition-colors duration-200">
+      <div className="container px-4 py-8 mx-auto max-w-screen-xl">
+        <HeaderFilters 
+          dateRange={dateRange}
+          setDateRange={setDateRange}
+          property={selectedProperty}
+          setProperty={setSelectedProperty}
+          properties={propertyOptions}
+          toggleTheme={toggleTheme}
+          isDarkMode={theme === 'dark'}
+        />
+        
+        {selectedProperty === 'All' && <SummaryPanel properties={mockProperties} />}
+        
+        <div className="space-y-8">
+          {filteredProperties.map(property => (
+            <PropertyCard key={property.id} property={property} />
+          ))}
+        </div>
       </div>
     </div>
   );
