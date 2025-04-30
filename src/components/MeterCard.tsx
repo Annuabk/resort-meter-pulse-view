@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { Boiler, Droplet, Fuel, Power, Gauge, Generator, SolarPanel } from 'lucide-react';
+import { Thermometer, Droplet, Fuel, Power, Gauge, Zap, Sun } from 'lucide-react';
 import { MeterInstrument } from '@/types/dashboard';
 
 interface MeterCardProps {
@@ -20,11 +20,11 @@ export const MeterCard: React.FC<MeterCardProps> = ({ instrument }) => {
       case 'gas':
         return <Fuel className="h-6 w-6 text-meter-gas" />;
       case 'generator':
-        return <Generator className="h-6 w-6 text-meter-generator" />;
+        return <Zap className="h-6 w-6 text-meter-generator" />;
       case 'boiler':
-        return <Boiler className="h-6 w-6 text-meter-boiler" />;
+        return <Thermometer className="h-6 w-6 text-meter-boiler" />;
       case 'solar':
-        return <SolarPanel className="h-6 w-6 text-yellow-500" />;
+        return <Sun className="h-6 w-6 text-yellow-500" />;
       default:
         return <Gauge className="h-6 w-6 text-gray-500" />;
     }
