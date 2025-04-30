@@ -1,5 +1,6 @@
 
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import { PropertyData } from '@/types/dashboard';
 import { MeterReadingCard } from './MeterReadingCard';
 import { GeneratorCard } from './GeneratorCard';
@@ -9,8 +10,23 @@ interface PropertyCardProps {
 }
 
 export const PropertyCard: React.FC<PropertyCardProps> = ({ property }) => {
+  const navigate = useNavigate();
+  
+  const getLocationCode = (location: string): string => {
+    if (location.includes('Spice Village')) return 'SV';
+    if (location.includes('Coconut Lagoon')) return 'CL';
+    if (location.includes('Brunton Boatyard')) return 'BB';
+    if (location.includes('Marari Beach')) return 'MB';
+    return '';
+  };
+  
+  const handleMeterCardClick = (meterType: string) => {
+    const locationCode = getLocationCode(property.location);
+    navigate(`/meters/${meterType.toLowerCase()}?location=${locationCode}`);
+  };
+  
   return (
-    <section className="mb-8">
+    <section className="mb-8 animate-fade-in">
       <h2 className="text-lg font-medium mb-3 flex items-center">
         <span className="text-blue-500 mr-2">•</span>
         {property.name} - {property.location}
@@ -18,7 +34,10 @@ export const PropertyCard: React.FC<PropertyCardProps> = ({ property }) => {
       
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
         {property.boiler && (
-          <div className="flex gap-2">
+          <div 
+            className="flex gap-2 hover:scale-[1.02] transition-transform cursor-pointer"
+            onClick={() => handleMeterCardClick('boiler')}
+          >
             <MeterReadingCard 
               title="BOILER" 
               reading={property.boiler.weight} 
@@ -39,11 +58,16 @@ export const PropertyCard: React.FC<PropertyCardProps> = ({ property }) => {
             title="GAS" 
             reading={property.gas} 
             colorClass="text-meter-gas"
+            className="hover:scale-[1.02] transition-transform cursor-pointer"
+            onClick={() => handleMeterCardClick('gas')}
           />
         )}
         
         {property.diesel && (
-          <div className="flex gap-2">
+          <div 
+            className="flex gap-2 hover:scale-[1.02] transition-transform cursor-pointer"
+            onClick={() => handleMeterCardClick('diesel')}
+          >
             <MeterReadingCard 
               title="DIESEL" 
               reading={property.diesel.volume} 
@@ -66,6 +90,8 @@ export const PropertyCard: React.FC<PropertyCardProps> = ({ property }) => {
             title="POWER" 
             reading={property.power} 
             colorClass="text-meter-power"
+            className="hover:scale-[1.02] transition-transform cursor-pointer"
+            onClick={() => handleMeterCardClick('power')}
           />
         )}
         
@@ -74,6 +100,8 @@ export const PropertyCard: React.FC<PropertyCardProps> = ({ property }) => {
             title="WATER" 
             reading={property.water} 
             colorClass="text-meter-water"
+            className="hover:scale-[1.02] transition-transform cursor-pointer"
+            onClick={() => handleMeterCardClick('water')}
           />
         )}
         
@@ -82,6 +110,8 @@ export const PropertyCard: React.FC<PropertyCardProps> = ({ property }) => {
             power={{ value: property.generator.power.value, unit: property.generator.power.unit }}
             fuel={{ value: property.generator.fuel.value, unit: property.generator.fuel.unit }}
             runtime={{ value: property.generator.runtime.time || '' }}
+            className="hover:scale-[1.02] transition-transform cursor-pointer"
+            onClick={() => handleMeterCardClick('generator')}
           />
         )}
       </div>

@@ -7,16 +7,21 @@ interface GeneratorCardProps {
   fuel: { value: number; unit: string };
   runtime: { value: string };
   className?: string;
+  onClick?: () => void;
 }
 
 export const GeneratorCard: React.FC<GeneratorCardProps> = ({ 
   power, 
   fuel, 
   runtime,
-  className
+  className,
+  onClick
 }) => {
   return (
-    <div className={cn("bg-white rounded-2xl p-4 shadow-md", className)}>
+    <div 
+      className={cn("bg-white dark:bg-gray-800 rounded-2xl p-4 shadow-md", className)}
+      onClick={onClick}
+    >
       <div className="text-xs font-medium uppercase mb-1 text-meter-generator">
         GENERATOR
       </div>

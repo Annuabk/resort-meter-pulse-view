@@ -9,13 +9,15 @@ interface MeterReadingCardProps {
   reading: MeterReading;
   colorClass: string;
   className?: string;
+  onClick?: () => void;
 }
 
 export const MeterReadingCard: React.FC<MeterReadingCardProps> = ({ 
   title, 
   reading, 
   colorClass,
-  className
+  className,
+  onClick
 }) => {
   const isNegative = reading.value < 0;
   
@@ -31,7 +33,10 @@ export const MeterReadingCard: React.FC<MeterReadingCardProps> = ({
   };
 
   return (
-    <div className={cn("bg-white rounded-2xl p-4 shadow-md", className)}>
+    <div 
+      className={cn("bg-white dark:bg-gray-800 rounded-2xl p-4 shadow-md", className)}
+      onClick={onClick}
+    >
       <div className={cn("text-xs font-medium uppercase mb-1", colorClass)}>
         {title}
       </div>

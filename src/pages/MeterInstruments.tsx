@@ -1,6 +1,6 @@
 
-import React, { useState } from 'react';
-import { useParams } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { useParams, useSearchParams } from 'react-router-dom';
 import { 
   Tabs, 
   TabsList, 
@@ -13,9 +13,34 @@ import { meterCategories, meterInstruments } from '@/data/meterData';
 
 const MeterInstruments = () => {
   const { category } = useParams();
+  const [searchParams] = useSearchParams();
+  const locationFromUrl = searchParams.get('location');
+  
   const [selectedCategory, setSelectedCategory] = useState<string>(category || 'boiler');
   const [selectedLocation, setSelectedLocation] = useState<string>("Spice Village - CGH Earth");
   const { theme } = useTheme();
+
+  // Effect to set location from URL param
+  useEffect(() => {
+    if (locationFromUrl) {
+      switch(locationFromUrl) {
+        case 'SV':
+          setSelectedLocation("Spice Village - CGH Earth");
+          break;
+        case 'CL':
+          setSelectedLocation("Coconut Lagoon - CGH Earth");
+          break;
+        case 'BB':
+          setSelectedLocation("Brunton Boatyard - CGH Earth");
+          break;
+        case 'MB':
+          setSelectedLocation("Marari Beach - CGH Earth");
+          break;
+        default:
+          break;
+      }
+    }
+  }, [locationFromUrl]);
 
   // Extract location code from the selected location string
   const getLocationCode = (location: string): string => {

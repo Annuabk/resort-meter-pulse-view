@@ -2,7 +2,6 @@
 import React, { useState } from 'react';
 import { HeaderFilters } from '@/components/HeaderFilters';
 import { PropertyCard } from '@/components/PropertyCard';
-import { SummaryPanel } from '@/components/SummaryPanel';
 import { useTheme } from '@/context/ThemeContext';
 import { DateRangeOption, PropertyOption } from '@/types/dashboard';
 import { mockProperties, propertyOptions } from '@/data/mockData';
@@ -30,9 +29,7 @@ const Index = () => {
           isDarkMode={theme === 'dark'}
         />
         
-        {selectedProperty === 'All' && <SummaryPanel properties={mockProperties} />}
-        
-        <div className="space-y-8">
+        <div className="space-y-8 mt-8">
           {filteredProperties.map(property => (
             <PropertyCard key={property.id} property={property} />
           ))}
