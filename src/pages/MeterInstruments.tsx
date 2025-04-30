@@ -10,6 +10,7 @@ import { Button } from '@/components/ui/button';
 import { MeterCard } from '@/components/MeterCard';
 import { useTheme } from '@/context/ThemeContext';
 import { meterCategories, meterInstruments } from '@/data/meterData';
+import { MeterConfigFlow } from '@/components/MeterConfigFlow';
 
 const MeterInstruments = () => {
   const { category } = useParams();
@@ -18,6 +19,7 @@ const MeterInstruments = () => {
   
   const [selectedCategory, setSelectedCategory] = useState<string>(category || 'boiler');
   const [selectedLocation, setSelectedLocation] = useState<string>("Spice Village - CGH Earth");
+  const [configModalOpen, setConfigModalOpen] = useState<boolean>(false);
   const { theme } = useTheme();
 
   // Effect to set location from URL param
@@ -90,7 +92,11 @@ const MeterInstruments = () => {
               </select>
             </div>
             
-            <Button variant="default" className="bg-blue-600 hover:bg-blue-700 text-white w-full md:w-auto">
+            <Button 
+              variant="default" 
+              className="bg-blue-600 hover:bg-blue-700 text-white w-full md:w-auto"
+              onClick={() => setConfigModalOpen(true)}
+            >
               Meter Configurations
             </Button>
           </div>
@@ -130,6 +136,12 @@ const MeterInstruments = () => {
           </div>
         )}
       </div>
+      
+      {/* Meter Configuration Modal Flow */}
+      <MeterConfigFlow 
+        isOpen={configModalOpen}
+        onOpenChange={setConfigModalOpen}
+      />
     </div>
   );
 };
