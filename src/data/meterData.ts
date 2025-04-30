@@ -39,6 +39,22 @@ export const meterInstruments: MeterInstrument[] = [
     unit: 'KG',
     location: 'SV'
   },
+  {
+    id: 'boiler-4',
+    name: 'Main Boiler System',
+    category: 'boiler',
+    value: 45,
+    unit: 'KG',
+    location: 'CL'
+  },
+  {
+    id: 'boiler-5',
+    name: 'Kitchen Boiler',
+    category: 'boiler',
+    value: 22,
+    unit: 'KG',
+    location: 'CL'
+  },
   
   // Power instruments
   {
@@ -65,6 +81,22 @@ export const meterInstruments: MeterInstrument[] = [
     unit: 'kWh',
     location: 'SV'
   },
+  {
+    id: 'power-4',
+    name: 'Main Electricity',
+    category: 'power',
+    value: 380,
+    unit: 'kWh',
+    location: 'CL'
+  },
+  {
+    id: 'power-5',
+    name: 'Air Conditioning',
+    category: 'power',
+    value: 210,
+    unit: 'kWh',
+    location: 'CL'
+  },
   
   // Water instruments
   {
@@ -82,6 +114,22 @@ export const meterInstruments: MeterInstrument[] = [
     value: 750,
     unit: 'Ltr',
     location: 'SV'
+  },
+  {
+    id: 'water-3',
+    name: 'Main Water Supply',
+    category: 'water',
+    value: 3200,
+    unit: 'Ltr',
+    location: 'CL'
+  },
+  {
+    id: 'water-4',
+    name: 'Pool Water System',
+    category: 'water',
+    value: 1800,
+    unit: 'Ltr',
+    location: 'CL'
   },
   
   // Diesel instruments
@@ -101,6 +149,22 @@ export const meterInstruments: MeterInstrument[] = [
     unit: 'Ltr',
     location: 'SV'
   },
+  {
+    id: 'diesel-3',
+    name: 'Emergency Generator',
+    category: 'diesel',
+    value: 220,
+    unit: 'Ltr',
+    location: 'CL'
+  },
+  {
+    id: 'diesel-4',
+    name: 'Staff Transport',
+    category: 'diesel',
+    value: 65,
+    unit: 'Ltr',
+    location: 'CL'
+  },
   
   // Gas instruments
   {
@@ -119,6 +183,22 @@ export const meterInstruments: MeterInstrument[] = [
     unit: 'KG',
     location: 'SV'
   },
+  {
+    id: 'gas-3',
+    name: 'Restaurant Supply',
+    category: 'gas',
+    value: 85,
+    unit: 'KG',
+    location: 'CL'
+  },
+  {
+    id: 'gas-4',
+    name: 'Staff Canteen',
+    category: 'gas',
+    value: 30,
+    unit: 'KG',
+    location: 'CL'
+  },
   
   // Generator instruments
   {
@@ -128,6 +208,22 @@ export const meterInstruments: MeterInstrument[] = [
     value: 25,
     unit: 'kW',
     location: 'SV'
+  },
+  {
+    id: 'generator-2',
+    name: 'Main Power Generator',
+    category: 'generator',
+    value: 40,
+    unit: 'kW',
+    location: 'CL'
+  },
+  {
+    id: 'generator-3',
+    name: 'Emergency Backup',
+    category: 'generator',
+    value: 15,
+    unit: 'kW',
+    location: 'CL'
   },
   
   // Solar instruments
@@ -146,5 +242,13 @@ export const meterInstruments: MeterInstrument[] = [
     value: 2.5,
     unit: 'kW',
     location: 'SV'
+  },
+  {
+    id: 'solar-3',
+    name: 'Main Building Solar',
+    category: 'solar',
+    value: 42,
+    unit: 'kW',
+    location: 'CL'
   }
 ];

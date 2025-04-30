@@ -7,7 +7,6 @@ import {
   TabsTrigger 
 } from '@/components/ui/tabs';
 import { Button } from '@/components/ui/button';
-import { Select } from '@/components/ui/select';
 import { MeterCard } from '@/components/MeterCard';
 import { useTheme } from '@/context/ThemeContext';
 import { meterCategories, meterInstruments } from '@/data/meterData';
@@ -18,8 +17,22 @@ const MeterInstruments = () => {
   const [selectedLocation, setSelectedLocation] = useState<string>("Spice Village - CGH Earth");
   const { theme } = useTheme();
 
+  // Extract location code from the selected location string
+  const getLocationCode = (location: string): string => {
+    if (location.includes('Spice Village')) return 'SV';
+    if (location.includes('Coconut Lagoon')) return 'CL';
+    if (location.includes('Brunton Boatyard')) return 'BB';
+    if (location.includes('Marari Beach')) return 'MB';
+    return '';
+  };
+
+  const locationCode = getLocationCode(selectedLocation);
+
+  // Filter instruments by both category and location
   const filteredInstruments = meterInstruments.filter(
-    instrument => instrument.category.toLowerCase() === selectedCategory.toLowerCase()
+    instrument => 
+      instrument.category.toLowerCase() === selectedCategory.toLowerCase() &&
+      (locationCode === '' || instrument.location === locationCode)
   );
 
   const handleCategoryChange = (value: string) => {
@@ -77,14 +90,20 @@ const MeterInstruments = () => {
           </TabsList>
         </Tabs>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {filteredInstruments.map((instrument) => (
-            <MeterCard 
-              key={instrument.id} 
-              instrument={instrument}
-            />
-          ))}
-        </div>
+        {filteredInstruments.length > 0 ? (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {filteredInstruments.map((instrument) => (
+              <MeterCard 
+                key={instrument.id} 
+                instrument={instrument}
+              />
+            ))}
+          </div>
+        ) : (
+          <div className="text-center py-10">
+            <p className="text-lg text-gray-500">No meter instruments found for this location and category.</p>
+          </div>
+        )}
       </div>
     </div>
   );
