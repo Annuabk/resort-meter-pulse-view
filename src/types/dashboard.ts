@@ -31,3 +31,20 @@ export interface PropertyData {
     runtime: MeterReading;
   };
 }
+
+// New types for the Meter Instruments page
+export type MeterCategory = 'power' | 'water' | 'diesel' | 'gas' | 'generator' | 'boiler' | 'solar';
+
+export interface MeterCategoryItem {
+  id: MeterCategory;
+  name: string;
+}
+
+export interface MeterInstrument {
+  id: string;
+  name: string;
+  category: MeterCategory;
+  value: number;
+  unit: string;
+  location: string;
+}
