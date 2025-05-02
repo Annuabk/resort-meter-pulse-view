@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { 
@@ -30,12 +29,15 @@ import { mockMeterReadings } from '@/data/meterReadings';
 import { MeterReading } from '@/types/dashboard';
 import { AddReadingModal } from '@/components/AddReadingModal';
 import { formatDistanceToNow } from 'date-fns';
+import { AddFuelTopupModal } from '@/components/AddFuelTopupModal';
+import { cn } from '@/lib/utils';
 
 const MeterReadings = () => {
   const { category, meterId } = useParams();
   const navigate = useNavigate();
   const [dateFilter, setDateFilter] = useState('This Month');
   const [addModalOpen, setAddModalOpen] = useState(false);
+  const [topupModalOpen, setTopupModalOpen] = useState(false);
 
   // Get meter information based on meterId from URL
   // In a real app, this would come from an API call or context
@@ -45,6 +47,9 @@ const MeterReadings = () => {
   const handleBackClick = () => {
     navigate(`/meters/${category?.toLowerCase()}`);
   };
+  
+  // Check if meter is diesel or generator type (for special buttons)
+  const isSpecialMeter = category === 'diesel' || category === 'generator';
   
   if (!meterInfo) {
     return (
@@ -77,7 +82,18 @@ const MeterReadings = () => {
     return readings;
   };
 
-  const displayReadings = filterReadings(meterInfo.readings);
+  // Get readings or use a placeholder if empty
+  const displayReadings = meterInfo.readings.length > 0 
+    ? filterReadings(meterInfo.readings)
+    : [
+        {
+          datetime: new Date(2025, 0, 1),
+          value: 0,
+          unit: meterInfo.unit,
+          createdBy: 'System',
+          remarks: null
+        }
+      ];
 
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-gray-100 transition-colors duration-200">
@@ -124,13 +140,32 @@ const MeterReadings = () => {
               </SelectContent>
             </Select>
             
-            <Button 
-              variant="default"
-              className="bg-blue-600 hover:bg-blue-700 text-white"
-              onClick={() => setAddModalOpen(true)}
-            >
-              + Add New Reading
-            </Button>
+            {isSpecialMeter ? (
+              <>
+                <Button 
+                  variant="outline"
+                  onClick={() => setTopupModalOpen(true)}
+                  className="bg-amber-500 hover:bg-amber-600 text-white border-amber-500"
+                >
+                  + Add Top-up Fuel
+                </Button>
+                <Button 
+                  variant="default"
+                  className="bg-blue-600 hover:bg-blue-700 text-white"
+                  onClick={() => setAddModalOpen(true)}
+                >
+                  + Add New Reading
+                </Button>
+              </>
+            ) : (
+              <Button 
+                variant="default"
+                className="bg-blue-600 hover:bg-blue-700 text-white"
+                onClick={() => setAddModalOpen(true)}
+              >
+                + Add New Reading
+              </Button>
+            )}
           </div>
         </div>
         
@@ -147,34 +182,32 @@ const MeterReadings = () => {
               </TableRow>
             </TableHeader>
             <TableBody>
-              {displayReadings.length > 0 ? (
-                displayReadings.map((reading, index) => (
-                  <TableRow key={index} className="hover:bg-gray-50 dark:hover:bg-gray-700">
-                    <TableCell>
-                      {reading.datetime.toLocaleString('en-US', { 
-                        year: 'numeric', 
-                        month: 'short', 
-                        day: 'numeric',
-                        hour: '2-digit',
-                        minute: '2-digit'
-                      })}
-                      <div className="text-xs text-gray-500 dark:text-gray-400">
-                        {formatDistanceToNow(reading.datetime, { addSuffix: true })}
-                      </div>
-                    </TableCell>
-                    <TableCell className="font-medium">{reading.value}</TableCell>
-                    <TableCell>{reading.unit}</TableCell>
-                    <TableCell>{reading.createdBy}</TableCell>
-                    <TableCell className="max-w-xs truncate">{reading.remarks || '-'}</TableCell>
-                  </TableRow>
-                ))
-              ) : (
-                <TableRow>
-                  <TableCell colSpan={5} className="text-center py-6">
-                    No readings found for this filter
+              {displayReadings.map((reading, index) => (
+                <TableRow 
+                  key={index} 
+                  className={cn(
+                    "hover:bg-gray-50 dark:hover:bg-gray-700",
+                    meterInfo.readings.length === 0 && "opacity-50 italic"
+                  )}
+                >
+                  <TableCell>
+                    {reading.datetime.toLocaleString('en-US', { 
+                      year: 'numeric', 
+                      month: 'short', 
+                      day: 'numeric',
+                      hour: '2-digit',
+                      minute: '2-digit'
+                    })}
+                    <div className="text-xs text-gray-500 dark:text-gray-400">
+                      {formatDistanceToNow(reading.datetime, { addSuffix: true })}
+                    </div>
                   </TableCell>
+                  <TableCell className="font-medium">{reading.value}</TableCell>
+                  <TableCell>{reading.unit}</TableCell>
+                  <TableCell>{reading.createdBy}</TableCell>
+                  <TableCell className="max-w-xs truncate">{reading.remarks || '-'}</TableCell>
                 </TableRow>
-              )}
+              ))}
             </TableBody>
           </Table>
         </div>
@@ -188,6 +221,16 @@ const MeterReadings = () => {
         meterName={meterInfo.name}
         defaultUnit={meterInfo.unit}
       />
+
+      {/* Add Top-up Modal (only for diesel and generator) */}
+      {isSpecialMeter && (
+        <AddFuelTopupModal
+          isOpen={topupModalOpen}
+          onClose={() => setTopupModalOpen(false)}
+          meterName={meterInfo.name}
+          meterCategory={category || ''}
+        />
+      )}
     </div>
   );
 };
