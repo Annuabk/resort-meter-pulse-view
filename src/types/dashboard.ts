@@ -27,6 +27,13 @@ export interface PropertyMeterReading {
   time?: string;
 }
 
+export interface DashboardMeterReading {
+  value: number;
+  unit: string;
+  trend?: 'up' | 'down' | 'stable';
+  time?: string;
+}
+
 export interface PropertyData {
   id: string;
   name: string;

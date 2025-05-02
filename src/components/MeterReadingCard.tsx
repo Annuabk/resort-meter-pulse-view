@@ -2,11 +2,11 @@
 import React from 'react';
 import { cn } from "@/lib/utils";
 import { TrendingUp, TrendingDown, Minus } from 'lucide-react';
-import { MeterReading } from '@/types/dashboard';
+import { DashboardMeterReading } from '@/types/dashboard';
 
 interface MeterReadingCardProps {
   title: string;
-  reading: MeterReading;
+  reading: DashboardMeterReading;
   colorClass: string;
   className?: string;
   onClick?: () => void;
