@@ -2,12 +2,15 @@
 import React from 'react';
 import { Thermometer, Droplet, Fuel, Power, Gauge, Zap, Sun } from 'lucide-react';
 import { MeterInstrument } from '@/types/dashboard';
+import { useNavigate } from 'react-router-dom';
 
 interface MeterCardProps {
   instrument: MeterInstrument;
 }
 
 export const MeterCard: React.FC<MeterCardProps> = ({ instrument }) => {
+  const navigate = useNavigate();
+  
   // Function to determine which icon to display based on category
   const getIcon = () => {
     switch (instrument.category.toLowerCase()) {
@@ -29,9 +32,16 @@ export const MeterCard: React.FC<MeterCardProps> = ({ instrument }) => {
         return <Gauge className="h-6 w-6 text-gray-500" />;
     }
   };
+  
+  const handleClick = () => {
+    navigate(`/meters/${instrument.category.toLowerCase()}/${instrument.id}`);
+  };
 
   return (
-    <div className="bg-white dark:bg-gray-800 rounded-xl shadow-md hover:shadow-lg transition-shadow p-4 border border-gray-100 dark:border-gray-700">
+    <div 
+      className="bg-white dark:bg-gray-800 rounded-xl shadow-md hover:shadow-lg transition-shadow p-4 border border-gray-100 dark:border-gray-700 cursor-pointer hover:scale-[1.02] transition-transform"
+      onClick={handleClick}
+    >
       <div className="flex justify-between">
         <div className="flex items-center space-x-3">
           <div className="p-2 bg-gray-100 dark:bg-gray-700 rounded-lg">

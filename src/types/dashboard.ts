@@ -4,6 +4,23 @@ export type DateRangeOption = 'Today' | 'This Week' | 'This Month' | 'This Year'
 export type PropertyOption = string | 'All';
 
 export interface MeterReading {
+  datetime: Date;
+  value: number;
+  unit: string;
+  createdBy: string;
+  remarks: string | null;
+}
+
+export interface MeterReadingInfo {
+  id: string;
+  name: string;
+  category: MeterCategory;
+  location: string;
+  unit: string;
+  readings: MeterReading[];
+}
+
+export interface PropertyMeterReading {
   value: number;
   unit: string;
   trend?: 'up' | 'down' | 'stable';
@@ -15,20 +32,20 @@ export interface PropertyData {
   name: string;
   location: string;
   boiler?: {
-    weight: MeterReading;
-    time: MeterReading;
+    weight: PropertyMeterReading;
+    time: PropertyMeterReading;
   };
-  gas?: MeterReading;
+  gas?: PropertyMeterReading;
   diesel?: {
-    volume: MeterReading;
-    time?: MeterReading;
+    volume: PropertyMeterReading;
+    time?: PropertyMeterReading;
   };
-  power?: MeterReading;
-  water?: MeterReading;
+  power?: PropertyMeterReading;
+  water?: PropertyMeterReading;
   generator?: {
-    power: MeterReading;
-    fuel: MeterReading;
-    runtime: MeterReading;
+    power: PropertyMeterReading;
+    fuel: PropertyMeterReading;
+    runtime: PropertyMeterReading;
   };
 }
 

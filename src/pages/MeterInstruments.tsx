@@ -11,6 +11,14 @@ import { MeterCard } from '@/components/MeterCard';
 import { useTheme } from '@/context/ThemeContext';
 import { meterCategories, meterInstruments } from '@/data/meterData';
 import { MeterConfigFlow } from '@/components/MeterConfigFlow';
+import { 
+  Breadcrumb,
+  BreadcrumbList,
+  BreadcrumbItem,
+  BreadcrumbLink,
+  BreadcrumbSeparator,
+  BreadcrumbPage
+} from '@/components/ui/breadcrumb';
 
 const MeterInstruments = () => {
   const { category } = useParams();
@@ -76,6 +84,18 @@ const MeterInstruments = () => {
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-gray-100 transition-colors duration-200">
       <div className="container px-4 py-8 mx-auto max-w-screen-xl">
+        <Breadcrumb className="mb-6">
+          <BreadcrumbList>
+            <BreadcrumbItem>
+              <BreadcrumbLink href="/">Dashboard</BreadcrumbLink>
+            </BreadcrumbItem>
+            <BreadcrumbSeparator />
+            <BreadcrumbItem>
+              <BreadcrumbPage>Meter Instruments</BreadcrumbPage>
+            </BreadcrumbItem>
+          </BreadcrumbList>
+        </Breadcrumb>
+        
         <div className="flex flex-col md:flex-row md:items-center justify-between mb-6">
           <h1 className="text-2xl font-semibold mb-4 md:mb-0">Meter Instruments</h1>
           
@@ -122,7 +142,7 @@ const MeterInstruments = () => {
         </Tabs>
 
         {filteredInstruments.length > 0 ? (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 animate-fade-in">
             {filteredInstruments.map((instrument) => (
               <MeterCard 
                 key={instrument.id} 
