@@ -44,16 +44,42 @@ export const meterInstruments: MeterInstrument[] = [
     unit: 'KG',
     location: 'SV'
   },
+  // Added new diesel instruments
   {
     id: 'diesel-1',
-    name: 'Generator Diesel Tank',
+    name: 'Diesel Storage Tank',
     category: 'diesel',
-    value: 120,
+    value: 8000,
     unit: 'Ltr',
+    location: 'SV'
+  },
+  {
+    id: 'diesel-2',
+    name: 'Transport Diesel Stock',
+    category: 'diesel',
+    value: 5000,
+    unit: 'Ltr',
+    location: 'CH'
+  },
+  // Added new generator instruments
+  {
+    id: 'generator-1',
+    name: 'Main Generator',
+    category: 'generator',
+    value: 2500,
+    unit: 'KWH',
+    location: 'SV'
+  },
+  {
+    id: 'generator-2',
+    name: 'Backup Generator',
+    category: 'generator',
+    value: 1500,
+    unit: 'KWH',
     location: 'CL'
   },
   {
-    id: 'generator-1',
+    id: 'generator-3',
     name: 'Emergency Generator',
     category: 'generator',
     value: 186,
