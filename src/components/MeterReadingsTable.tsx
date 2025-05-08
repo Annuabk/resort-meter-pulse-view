@@ -32,10 +32,13 @@ export const MeterReadingsTable: React.FC<MeterReadingsTableProps> = ({
         <TableHeader>
           <TableRow>
             <TableHead>Date & Time</TableHead>
+            {isSpecialMeter && <TableHead>Running Hours</TableHead>}
             <TableHead>Reading Value</TableHead>
+            {isSpecialMeter && <TableHead>Power Generated</TableHead>}
             <TableHead>Unit</TableHead>
+            {isSpecialMeter && <TableHead>Fuel Consumption</TableHead>}
             <TableHead>Created by</TableHead>
-            <TableHead>Remarks / Top-up</TableHead>
+            {!isSpecialMeter && <TableHead>Remarks / Top-up</TableHead>}
           </TableRow>
         </TableHeader>
         <TableBody>
@@ -59,21 +62,59 @@ export const MeterReadingsTable: React.FC<MeterReadingsTableProps> = ({
                   {formatDistanceToNow(reading.datetime, { addSuffix: true })}
                 </div>
               </TableCell>
+              
+              {/* Running Hours (special meters only) */}
+              {isSpecialMeter && (
+                <TableCell>
+                  {index === 0 ? '2H 30M' : '1H 45M'}
+                </TableCell>
+              )}
+              
+              {/* Reading Value */}
               <TableCell className="font-medium">{reading.value}</TableCell>
+              
+              {/* Power Generated (special meters only) */}
+              {isSpecialMeter && (
+                <TableCell>
+                  {index === 0 ? '500' : '350'}
+                </TableCell>
+              )}
+              
+              {/* Unit */}
               <TableCell>{reading.unit}</TableCell>
-              <TableCell>{reading.createdBy}</TableCell>
+              
+              {/* Fuel Consumption (special meters only) */}
+              {isSpecialMeter && (
+                <TableCell>
+                  {index === 0 ? '600' : '450'}
+                </TableCell>
+              )}
+              
+              {/* Created By with Remarks underneath */}
               <TableCell>
-                <div className="flex items-center space-x-2">
-                  <span>{reading.remarks || '-'}</span>
-                  {/* Show fuel icon if this was a top-up entry (mock data for now) */}
-                  {index === 1 && isSpecialMeter && (
-                    <div className="bg-amber-100 text-amber-700 px-2 py-1 rounded-full text-xs font-medium flex items-center">
-                      <Fuel className="h-3 w-3 mr-1" />
-                      <span>50 Ltr</span>
-                    </div>
-                  )}
-                </div>
+                <div>{reading.createdBy}</div>
+                {reading.remarks && (
+                  <div className="text-xs text-gray-500 dark:text-gray-400 mt-1">
+                    Remarks: {reading.remarks}
+                  </div>
+                )}
               </TableCell>
+              
+              {/* Remarks/Top-up column (non-special meters only) */}
+              {!isSpecialMeter && (
+                <TableCell>
+                  <div className="flex items-center space-x-2">
+                    <span>{reading.remarks || '-'}</span>
+                    {/* Show fuel icon if this was a top-up entry */}
+                    {index === 1 && (
+                      <div className="bg-amber-100 text-amber-700 px-2 py-1 rounded-full text-xs font-medium flex items-center">
+                        <Fuel className="h-3 w-3 mr-1" />
+                        <span>50 Ltr</span>
+                      </div>
+                    )}
+                  </div>
+                </TableCell>
+              )}
             </TableRow>
           ))}
         </TableBody>

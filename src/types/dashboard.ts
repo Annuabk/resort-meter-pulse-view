@@ -1,4 +1,3 @@
-
 export type DateRangeOption = 'Today' | 'This Week' | 'This Month' | 'This Year';
 
 export type PropertyOption = string | 'All';
@@ -9,6 +8,9 @@ export interface MeterReading {
   unit: string;
   createdBy: string;
   remarks: string | null;
+  runningHours?: string;
+  powerGenerated?: number;
+  fuelConsumption?: number;
 }
 
 export interface MeterReadingInfo {
