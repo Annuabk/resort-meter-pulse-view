@@ -1,3 +1,4 @@
+
 export type DateRangeOption = 'Today' | 'This Week' | 'This Month' | 'This Year';
 
 export type PropertyOption = string | 'All';
@@ -73,4 +74,12 @@ export interface MeterInstrument {
   value: number;
   unit: string;
   location: string;
+}
+
+// New types for the charts
+export interface ChartData {
+  name: string;
+  value: number;
+  alert?: boolean;
+  timestamp?: Date;
 }

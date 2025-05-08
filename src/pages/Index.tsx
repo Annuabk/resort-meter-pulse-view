@@ -5,6 +5,9 @@ import { PropertyCard } from '@/components/PropertyCard';
 import { useTheme } from '@/context/ThemeContext';
 import { DateRangeOption, PropertyOption } from '@/types/dashboard';
 import { mockProperties, propertyOptions } from '@/data/mockData';
+import { Button } from '@/components/ui/button';
+import { BarChart3 } from 'lucide-react';
+import { Link } from 'react-router-dom';
 
 const Index = () => {
   const { theme, toggleTheme } = useTheme();
@@ -29,6 +32,16 @@ const Index = () => {
             toggleTheme={toggleTheme}
             isDarkMode={theme === 'dark'}
           />
+        </div>
+        
+        <div className="flex justify-between items-center mb-6">
+          <h1 className="text-2xl font-bold">Properties Overview</h1>
+          <Link to="/dashboard">
+            <Button className="flex items-center gap-2">
+              <BarChart3 className="h-5 w-5" />
+              Utility Dashboard
+            </Button>
+          </Link>
         </div>
         
         <div className="space-y-8 mt-8">

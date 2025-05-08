@@ -8,6 +8,7 @@ import { ThemeProvider } from "./context/ThemeContext";
 import Index from "./pages/Index";
 import MeterInstruments from "./pages/MeterInstruments";
 import MeterReadings from "./pages/MeterReadings";
+import UtilityDashboard from "./pages/UtilityDashboard";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -21,6 +22,7 @@ const App = () => (
         <BrowserRouter>
           <Routes>
             <Route path="/" element={<Index />} />
+            <Route path="/dashboard" element={<UtilityDashboard />} />
             <Route path="/meters" element={<MeterInstruments />} />
             <Route path="/meters/:category" element={<MeterInstruments />} />
             <Route path="/meters/:category/:meterId" element={<MeterReadings />} />
