@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { 
@@ -24,13 +25,14 @@ import {
   SelectTrigger, 
   SelectValue 
 } from '@/components/ui/select';
-import { ChevronLeft } from 'lucide-react';
+import { ChevronLeft, Fuel } from 'lucide-react';
 import { mockMeterReadings } from '@/data/meterReadings';
 import { MeterReading } from '@/types/dashboard';
 import { AddReadingModal } from '@/components/AddReadingModal';
 import { formatDistanceToNow } from 'date-fns';
 import { AddFuelTopupModal } from '@/components/AddFuelTopupModal';
 import { cn } from '@/lib/utils';
+import { MeterSummaryCard } from '@/components/MeterSummaryCard';
 
 const MeterReadings = () => {
   const { category, meterId } = useParams();
@@ -95,6 +97,11 @@ const MeterReadings = () => {
         }
       ];
 
+  // Mock data for summary cards - in a real app, this would be calculated from readings
+  const currentReading = displayReadings[0].value;
+  const kwhGenerated = category === 'generator' ? 1200 : null;
+  const runningHours = category === 'generator' ? 120 : null;
+
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-gray-100 transition-colors duration-200">
       <div className="container px-4 py-8 mx-auto max-w-screen-xl">
@@ -147,14 +154,14 @@ const MeterReadings = () => {
                   onClick={() => setTopupModalOpen(true)}
                   className="bg-amber-500 hover:bg-amber-600 text-white border-amber-500"
                 >
-                  + Add Top-up Fuel
+                  <Plus className="mr-1 h-4 w-4" /> Add Top-up Fuel
                 </Button>
                 <Button 
                   variant="default"
                   className="bg-blue-600 hover:bg-blue-700 text-white"
                   onClick={() => setAddModalOpen(true)}
                 >
-                  + Add New Reading
+                  <Plus className="mr-1 h-4 w-4" /> Add New Reading
                 </Button>
               </>
             ) : (
@@ -163,10 +170,37 @@ const MeterReadings = () => {
                 className="bg-blue-600 hover:bg-blue-700 text-white"
                 onClick={() => setAddModalOpen(true)}
               >
-                + Add New Reading
+                <Plus className="mr-1 h-4 w-4" /> Add New Reading
               </Button>
             )}
           </div>
+        </div>
+
+        {/* Summary Cards */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+          <MeterSummaryCard 
+            title="Current Reading" 
+            value={currentReading}
+            unit={meterInfo.unit}
+            showTopUpButton={isSpecialMeter}
+            onTopUpClick={() => setTopupModalOpen(true)}
+          />
+          
+          {category === 'generator' && (
+            <MeterSummaryCard 
+              title="KWH Generated" 
+              value={kwhGenerated || 0}
+              unit="KWH"
+            />
+          )}
+
+          {category === 'generator' && (
+            <MeterSummaryCard 
+              title="Running Hours" 
+              value={runningHours || 0}
+              unit="Hrs"
+            />
+          )}
         </div>
         
         {/* Readings table */}
@@ -178,7 +212,7 @@ const MeterReadings = () => {
                 <TableHead>Reading Value</TableHead>
                 <TableHead>Unit</TableHead>
                 <TableHead>Created by</TableHead>
-                <TableHead>Remarks</TableHead>
+                <TableHead>Remarks / Top-up</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
@@ -205,7 +239,18 @@ const MeterReadings = () => {
                   <TableCell className="font-medium">{reading.value}</TableCell>
                   <TableCell>{reading.unit}</TableCell>
                   <TableCell>{reading.createdBy}</TableCell>
-                  <TableCell className="max-w-xs truncate">{reading.remarks || '-'}</TableCell>
+                  <TableCell>
+                    <div className="flex items-center space-x-2">
+                      <span>{reading.remarks || '-'}</span>
+                      {/* Show fuel icon if this was a top-up entry (mock data for now) */}
+                      {index === 1 && isSpecialMeter && (
+                        <div className="bg-amber-100 text-amber-700 px-2 py-1 rounded-full text-xs font-medium flex items-center">
+                          <Fuel className="h-3 w-3 mr-1" />
+                          <span>50 Ltr</span>
+                        </div>
+                      )}
+                    </div>
+                  </TableCell>
                 </TableRow>
               ))}
             </TableBody>
